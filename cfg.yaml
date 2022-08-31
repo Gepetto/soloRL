@@ -1,0 +1,80 @@
+seed: 1
+record_video: yes
+
+learning_rate: 0.0005
+
+environment:
+  render: True
+# just testing commenting
+  num_envs: 300
+  eval_every_n: 500
+  num_threads: 30
+  simulation_dt: 0.001
+  control_dt: 0.01
+  max_time: 1.
+  flat_terrain: false
+  random_dynamics: true
+  random_observations: true
+  num_history_stack: 3
+  randomize_initial_state: false
+  add_external_force: false
+  add_periodic_signal: false
+  add_constant_signal: false
+  add_terrain_features: false
+  use_curriculum: true
+  reward_curriculum_increment: 0.0003
+  noise_curriculum_increment: 0.0002
+  alpha : 0. #3859 # 2pi * dt * fc / (2pi * dt * fc + 1) # at fc100: alpha=.3859 ; fc50: alpha=0.2391
+  max_foot_height: 0.072
+  use_raisim_pd: false
+  use_symmetric_pose: true
+  reward:
+     reward_total:
+        coeff: 1
+     reward_neg:
+        coeff: .5
+     torque:
+        coeff: 0.
+     energy:
+        coeff: -3.
+     foot_slip:
+        coeff: -0.08
+     foot_clearance:
+        coeff: -22.0
+     body_orientation:
+        coeff: -3.0
+     body_vel:
+        coeff: -1.2
+     joints_pos:
+        coeff: -.4
+     joints_vel:
+        coeff: -0.
+     joints_acc:
+        coeff: -0.
+     action_smoothness1:
+        coeff: -2.5
+     action_smoothness2:
+        coeff: -1.2
+     linear_vel:
+        coeff: +3.
+     angular_vel:
+        coeff: +3.
+     linear_dir:
+        coeff: +0.0
+     angular_dir:
+        coeff: +0.0
+
+architecture:
+  policy_net: [256, 128, 32]
+  value_net: [256, 128, 32]
+
+
+ppo_params:
+  gamma: 0.996
+  tau: 0.95
+  clip_param: 0.2
+  ppo_epoch: 4
+  num_mini_batches: 4
+  value_loss_coef: 0.5
+  entropy_coef: 0.0
+  max_grad_norm: 0.5
