@@ -15,3 +15,10 @@ Coming soon example RL training/testing based on stable-baselines + example gym 
 NOTE: If you have a Solo12 and wish to try our policies, we also provide the policy checkpoints used and the interface code with the robot in https://gitlab.laas.fr/paleziart/quadruped-rl 
 
 This neural network runs on the robot with a speed of 10 μs!
+
+File description: <br />
+Environment.hpp: Enviornment description in format suitable for the raisim simulator. <br />
+cfg.yaml: main training parameters. <br />
+cfg_terrain.yaml: training parameters with non-flat terrains (check the papers for details). <br />
+NoiseSampler.h: noise vector objects  (in eigen) for domain randomization. <br />
+HeightTerrain.hpp: heightmap description used in training non-flat terrains.
