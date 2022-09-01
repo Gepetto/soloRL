@@ -1,6 +1,8 @@
 #ifndef SRC_HEIGHTFIELD_HPP
 #define SRC_HEIGHTFIELD_HPP
 
+// This file is created by Michel Aractingi//
+// michel.aractingi@naverlabs.com//
 
 #include <vector>
 #include <Eigen/Core>

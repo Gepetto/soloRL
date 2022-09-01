@@ -109,11 +109,6 @@ class ENVIRONMENT : public RaisimGymEnv {
       kpNoise_ = UniformNoiseSampler(1, -0.5, 2);
       kdNoise_ = UniformNoiseSampler(1, -0.1, 0.1);
 
-      // Randomize Motor friction variables
-      HipFrictionNoise_ = UniformNoiseSampler(1, 0.0, 0.3);
-      KneeFrictionNoise_ = UniformNoiseSampler(1, 0.0, 0.3);
-      frictionForce_.setZero(gvDim_);
-
       // Body mass mimics load on robot
       initMass_ = robot_->getMass(0);
       BodyMassNoise_ = UniformNoiseSampler(1, 0.0, .3);
@@ -197,15 +192,6 @@ class ENVIRONMENT : public RaisimGymEnv {
       jointPgain.tail(nJoints_).setConstant(kp);
       jointDgain.tail(nJoints_).setConstant(kd);
 
-      double HipFriction_ = 0*kc_noise  * HipFrictionNoise_.sample().coeff(0,0);
-      double KneeFriction_ = 0*kc_noise * KneeFrictionNoise_.sample().coeff(0,0);
-
-      frictionForce_ << 0.,0.,0.,0.,0.,0.,
-		        HipFriction_,HipFriction_,KneeFriction_,
-                        HipFriction_,HipFriction_,KneeFriction_,
-                        HipFriction_,HipFriction_,KneeFriction_,
-                        HipFriction_,HipFriction_,KneeFriction_;
-
       // modify mass of the body (0 index)
       double mass = initMass_ + kc_noise * BodyMassNoise_.sample().coeff(0,0) * 0;
       robot_->setMass(0, mass);
@@ -268,10 +254,6 @@ class ENVIRONMENT : public RaisimGymEnv {
       
       // Low pass filter the torques
       filter_torques_ = alpha_ * filter_torques_ + (1 - alpha_) * desired_force_;
-      
-      // Set effects of motor friction as feeforward torques
-      if (randomDynamics_)
-        filter_torques_ -=  frictionForce_ * gv_.array().sign().matrix();
       
       // Send torque commands to raisim
       robot_->setGeneralizedForce(filter_torques_);
@@ -571,11 +553,11 @@ class ENVIRONMENT : public RaisimGymEnv {
   bool randomObservation_ = cfg_["random_observations"].template As<bool>();
 
   // Noise variables for randomization
-  UniformNoiseSampler friction_, kpNoise_, kdNoise_, qNoise_, qdNoise_, bodyOrientationNoise_, AngularVelNoise_, LinearVelNoise_, HipFrictionNoise_, KneeFrictionNoise_, BodyMassNoise_;
+  UniformNoiseSampler friction_, kpNoise_, kdNoise_, qNoise_, qdNoise_, bodyOrientationNoise_, AngularVelNoise_, LinearVelNoise_, BodyMassNoise_;
 
   UniformNoiseSampler VxSample_, VySample_, WzSample_;
 
-  Eigen::VectorXd frictionForce_, frictionTorque, powerSum_;
+  Eigen::VectorXd frictionTorque, powerSum_;
   double initMass_; 
 
   Eigen::VectorXd velCommand_;

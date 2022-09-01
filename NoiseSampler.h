@@ -1,3 +1,6 @@
+// This file is created by Michel Aractingi//
+// michel.aractingi@naverlabs.com//
+//
 #include <iostream>
 #include <iomanip>
 #include <Eigen/Dense>
