@@ -13,4 +13,5 @@ Install [raisim](www.raisim.com) and [raisimGymTorch](https://raisim.com/section
 Coming soon example RL training/testing based on stable-baselines + example gym environment based on Pybullet in python.
 
 NOTE: If you have a Solo12 and wish to try our policies, we also provide the policy checkpoints used and the interface code with the robot in https://gitlab.laas.fr/paleziart/quadruped-rl 
+
 This neural network runs on the robot with a speed of 10 μs!
