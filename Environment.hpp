@@ -228,7 +228,6 @@ class ENVIRONMENT : public RaisimGymEnv {
     InfoMap_["Vy"] = velCommand_(1);
     InfoMap_["Wz"] = velCommand_(2);
 
-    clearContactMap();
   }
 
   float step(const Eigen::Ref<EigenVec>& action) final {
